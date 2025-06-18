@@ -14,7 +14,8 @@ import {
   Work,
   Skills,
   Projects,
-  Awards
+  Awards,
+  Tailor
 } from '.'
 import Preview from '../../preview/components'
 import { ScrollToTop } from '../../../common/components'
@@ -108,6 +109,7 @@ class Form extends Component<Props> {
             <Route exact path="/generator/skills" component={Skills} />
             <Route exact path="/generator/projects" component={Projects} />
             <Route exact path="/generator/awards" component={Awards} />
+            <Route exact path="/generator/tailor" component={Tailor} />
             <Route exact path="/generator/mobile-preview" component={Preview} />
             <Route path="*" render={() => <h1 style={{ margin: 0 }}>404</h1>} />
           </Switch>

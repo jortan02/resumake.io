@@ -10,5 +10,6 @@ type Section =
   | 'skills'
   | 'projects'
   | 'awards'
+  | 'tailor'
 
 export type { Section }

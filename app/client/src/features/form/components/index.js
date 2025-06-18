@@ -15,6 +15,7 @@ import Job from './fragments/Job'
 import Skill from './fragments/Skill'
 import Project from './fragments/Project'
 import Award from './fragments/Award'
+import Tailor from './sections/Tailor'
 
 export {
   Templates,
@@ -28,7 +29,8 @@ export {
   Job,
   Skill,
   Project,
-  Award
+  Award,
+  Tailor
 }
 
 export default Form
