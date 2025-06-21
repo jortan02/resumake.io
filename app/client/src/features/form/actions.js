@@ -186,6 +186,57 @@ function removeAward(): Action {
   }
 }
 
+function toggleWorkItem(index: number): Action {
+  return {
+    type: 'TOGGLE_WORK_ITEM',
+    index
+  }
+}
+
+function toggleEducationItem(index: number): Action {
+  return {
+    type: 'TOGGLE_EDUCATION_ITEM',
+    index
+  }
+}
+
+function toggleSkillItem(index: number): Action {
+  return {
+    type: 'TOGGLE_SKILL_ITEM',
+    index
+  }
+}
+
+function toggleProjectItem(index: number): Action {
+  return {
+    type: 'TOGGLE_PROJECT_ITEM',
+    index
+  }
+}
+
+function toggleAwardItem(index: number): Action {
+  return {
+    type: 'TOGGLE_AWARD_ITEM',
+    index
+  }
+}
+
+function toggleSkillKeyword(skillIndex: number, keywordIndex: number): Action {
+  return {
+    type: 'TOGGLE_SKILL_KEYWORD',
+    skillIndex,
+    keywordIndex
+  }
+}
+
+function toggleProjectKeyword(projectIndex: number, keywordIndex: number): Action {
+  return {
+    type: 'TOGGLE_PROJECT_KEYWORD',
+    projectIndex,
+    keywordIndex
+  }
+}
+
 export {
   uploadJSON,
   uploadJSONRequest,
@@ -210,5 +261,12 @@ export {
   removeProjectKeyword,
   addAward,
   removeAward,
-  uploadFileAndGenerateResume
+  uploadFileAndGenerateResume,
+  toggleWorkItem,
+  toggleEducationItem,
+  toggleSkillItem,
+  toggleProjectItem,
+  toggleAwardItem,
+  toggleSkillKeyword,
+  toggleProjectKeyword
 }

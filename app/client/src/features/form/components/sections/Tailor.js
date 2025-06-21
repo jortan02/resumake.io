@@ -4,12 +4,15 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { formValueSelector, arrayMove } from 'redux-form'
 import Section from './Section'
 import LabeledInput, { Input, Label } from '../fragments/LabeledInput'
-import { Icon, RoundButton } from '../../../../common/components'
+import { Button, Divider } from '../../../../common/components'
 import type { FormValues } from '../../types'
 import type { State } from '../../../../app/types'
 import styled from 'styled-components'
+import LabeledTextArea from '../fragments/LabeledTextArea'
+import SortableResumeSections from '../fragments/SortableResumeSections'
 
 const Row = styled.div`
   display: flex;
@@ -39,7 +42,10 @@ type Props = {
   skills: $PropertyType<FormValues, 'skills'>,
   projects: $PropertyType<FormValues, 'projects'>,
   awards: $PropertyType<FormValues, 'awards'>,
-  selectedTemplate: $PropertyType<FormValues, 'selectedTemplate'>
+  selectedTemplate: $PropertyType<FormValues, 'selectedTemplate'>,
+  tailorDescription: ?string,
+  sections: Array<string>,
+  dispatch: Function
 }
 
 function Tailor({
@@ -49,14 +55,34 @@ function Tailor({
   skills,
   projects,
   awards,
-  selectedTemplate
+  selectedTemplate,
+  tailorDescription,
+  sections,
+  dispatch
 }: Props) {
+  const onSortEnd = (sectionType, oldIndex, newIndex) => {
+    // Use Redux Form's arrayMove to reorder items within the specific section
+    dispatch(arrayMove('resume', sectionType, oldIndex, newIndex))
+  }
+
   return (
     <Section heading="Tailor Your Resume">
-      {/* TODO: Add UI components for tailoring */}
+      <LabeledTextArea label="Job Description" name="tailor.description" placeholder="Enter the job description" />
+      <Button onClick={() => {}} isDisabled={!tailorDescription}>Tailor</Button>
+      <SortableResumeSections
+        sections={sections}
+        work={work}
+        education={education}
+        skills={skills}
+        projects={projects}
+        awards={awards}
+        onSortEnd={onSortEnd}
+      />
     </Section>
   )
 }
+
+const selector = formValueSelector('resume')
 
 function mapState(state: State) {
   return {
@@ -66,7 +92,9 @@ function mapState(state: State) {
     skills: state.form.resume.values.skills,
     projects: state.form.resume.values.projects,
     awards: state.form.resume.values.awards,
-    selectedTemplate: state.form.resume.values.selectedTemplate
+    selectedTemplate: state.form.resume.values.selectedTemplate,
+    tailorDescription: selector(state, 'tailor.description'),
+    sections: state.progress.sections
   }
 }
 

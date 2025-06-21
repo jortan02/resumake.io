@@ -35,7 +35,8 @@ const initialState = {
         studyType: '',
         startDate: '',
         endDate: '',
-        gpa: ''
+        gpa: '',
+        enabled: true
       }
     ],
     work: [
@@ -46,14 +47,16 @@ const initialState = {
         website: '',
         startDate: '',
         endDate: '',
-        highlights: ['']
+        highlights: [''],
+        enabled: true
       }
     ],
     skills: [
       {
         name: '',
         level: '',
-        keywords: ['']
+        keywords: [''],
+        enabled: true
       }
     ],
     projects: [
@@ -61,7 +64,8 @@ const initialState = {
         name: '',
         description: '',
         url: '',
-        keywords: ['']
+        keywords: [''],
+        enabled: true
       }
     ],
     awards: [
@@ -69,9 +73,13 @@ const initialState = {
         title: '',
         date: '',
         awarder: '',
-        summary: ''
+        summary: '',
+        enabled: true
       }
-    ]
+    ],
+    tailor: {
+      description: ''
+    }
   }
 }
 
@@ -124,7 +132,7 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          education: [...state.values.education, {}]
+          education: [...state.values.education, { enabled: true }]
         }
       }
     }
@@ -178,7 +186,7 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          work: [...state.values.work, { highlights: [''] }]
+          work: [...state.values.work, { highlights: [''], enabled: true }]
         }
       }
     }
@@ -250,7 +258,8 @@ function form(state: FormState = initialState, action: Action): FormState {
           skills: [
             ...state.values.skills,
             {
-              keywords: ['']
+              keywords: [''],
+              enabled: true
             }
           ]
         }
@@ -318,7 +327,7 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          projects: [...state.values.projects, { keywords: [''] }]
+          projects: [...state.values.projects, { keywords: [''], enabled: true }]
         }
       }
     }
@@ -387,7 +396,7 @@ function form(state: FormState = initialState, action: Action): FormState {
         ...state,
         values: {
           ...state.values,
-          awards: [...state.values.awards, {}]
+          awards: [...state.values.awards, { enabled: true }]
         }
       }
     }
@@ -402,6 +411,76 @@ function form(state: FormState = initialState, action: Action): FormState {
         values: {
           ...state.values,
           awards: state.values.awards.slice(0, -1)
+        }
+      }
+    }
+
+    case 'TOGGLE_WORK_ITEM': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          work: state.values.work.map((item, index) => 
+            index === action.index 
+              ? { ...item, enabled: !item.enabled }
+              : item
+          )
+        }
+      }
+    }
+
+    case 'TOGGLE_EDUCATION_ITEM': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          education: state.values.education.map((item, index) => 
+            index === action.index 
+              ? { ...item, enabled: !item.enabled }
+              : item
+          )
+        }
+      }
+    }
+
+    case 'TOGGLE_SKILL_ITEM': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          skills: state.values.skills.map((item, index) => 
+            index === action.index 
+              ? { ...item, enabled: !item.enabled }
+              : item
+          )
+        }
+      }
+    }
+
+    case 'TOGGLE_PROJECT_ITEM': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          projects: state.values.projects.map((item, index) => 
+            index === action.index 
+              ? { ...item, enabled: !item.enabled }
+              : item
+          )
+        }
+      }
+    }
+
+    case 'TOGGLE_AWARD_ITEM': {
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          awards: state.values.awards.map((item, index) => 
+            index === action.index 
+              ? { ...item, enabled: !item.enabled }
+              : item
+          )
         }
       }
     }

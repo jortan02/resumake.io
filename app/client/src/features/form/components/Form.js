@@ -70,7 +70,18 @@ class Form extends Component<Props> {
 
   onSubmit = (values: FormValues) => {
     const { sections, generateResume } = this.props
-    generateResume({ ...values, sections })
+    
+    // Filter out disabled items beforehand
+    const filteredValues = {
+      ...values,
+      work: values.work.filter(item => item.enabled !== false),
+      education: values.education.filter(item => item.enabled !== false),
+      skills: values.skills.filter(item => item.enabled !== false),
+      projects: values.projects.filter(item => item.enabled !== false),
+      awards: values.awards.filter(item => item.enabled !== false)
+    }
+    
+    generateResume({ ...filteredValues, sections })
   }
 
   updateProgress() {

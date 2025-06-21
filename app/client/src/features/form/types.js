@@ -29,7 +29,8 @@ type School = {
   studyType?: ?string,
   startDate?: ?string,
   endDate?: ?string,
-  gpa?: ?string
+  gpa?: ?string,
+  enabled?: boolean
 }
 
 type Job = {
@@ -39,26 +40,36 @@ type Job = {
   website?: ?string,
   startDate?: ?string,
   endDate?: ?string,
-  highlights: Array<?string>
+  highlights: Array<?string>,
+  enabled?: boolean
 }
 
 type Skill = {
   name?: ?string,
-  keywords: Array<?string>
+  keywords: Array<?string>,
+  enabled?: boolean,
+  keywordsEnabled?: Array<boolean>
 }
 
 type Project = {
   name?: ?string,
   description?: ?string,
   url?: ?string,
-  keywords: Array<?string>
+  keywords: Array<?string>,
+  enabled?: boolean,
+  keywordsEnabled?: Array<boolean>
 }
 
 type Award = {
   title?: ?string,
   date?: ?string,
   awarder?: ?string,
-  summary?: ?string
+  summary?: ?string,
+  enabled?: boolean
+}
+
+type Tailor = {
+  description?: ?string
 }
 
 type FormValues = {
@@ -69,7 +80,8 @@ type FormValues = {
   education: Array<School>,
   skills: Array<Skill>,
   projects: Array<Project>,
-  awards: Array<Award>
+  awards: Array<Award>,
+  tailor: Tailor
 }
 
 type FormValuesWithSectionOrder = FormValues & {
@@ -110,5 +122,12 @@ type FormAction =
   | { type: 'REMOVE_PROJECT_KEYWORD', index: number }
   | { type: 'ADD_AWARD' }
   | { type: 'REMOVE_AWARD' }
+  | { type: 'TOGGLE_WORK_ITEM', index: number }
+  | { type: 'TOGGLE_EDUCATION_ITEM', index: number }
+  | { type: 'TOGGLE_SKILL_ITEM', index: number }
+  | { type: 'TOGGLE_PROJECT_ITEM', index: number }
+  | { type: 'TOGGLE_AWARD_ITEM', index: number }
+  | { type: 'TOGGLE_SKILL_KEYWORD', skillIndex: number, keywordIndex: number }
+  | { type: 'TOGGLE_PROJECT_KEYWORD', projectIndex: number, keywordIndex: number }
 
 export type { FormState, FormAction, FormValues, FormValuesWithSectionOrder }
