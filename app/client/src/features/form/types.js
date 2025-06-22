@@ -104,7 +104,11 @@ type FormState = {
   values: FormValues,
   anyTouched?: boolean,
   registeredFields?: Object,
-  fields?: Object
+  fields?: Object,
+  tailorUpload: {
+    status?: 'pending' | 'success' | 'failure',
+    errMessage?: string
+  }
 }
 
 type FormAction =
@@ -137,5 +141,8 @@ type FormAction =
   | { type: 'TOGGLE_AWARD_ITEM', index: number }
   | { type: 'TOGGLE_SKILL_KEYWORD', skillIndex: number, keywordIndex: number }
   | { type: 'TOGGLE_PROJECT_KEYWORD', projectIndex: number, keywordIndex: number }
+  | { type: 'UPLOAD_TAILOR_REQUEST' }
+  | { type: 'UPLOAD_TAILOR_SUCCESS', tailoredData: FormValues }
+  | { type: 'UPLOAD_TAILOR_FAILURE', errMessage: string }
 
 export type { FormState, FormAction, FormValues, FormValuesWithSectionOrder }

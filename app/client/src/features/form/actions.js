@@ -237,6 +237,58 @@ function toggleProjectKeyword(projectIndex: number, keywordIndex: number): Actio
   }
 }
 
+function uploadTailorRequest(): Action {
+  return {
+    type: 'UPLOAD_TAILOR_REQUEST'
+  }
+}
+
+function uploadTailorSuccess(tailoredData: FormValues): Action {
+  return {
+    type: 'UPLOAD_TAILOR_SUCCESS',
+    tailoredData
+  }
+}
+
+function uploadTailorFailure(errMessage: string): Action {
+  return {
+    type: 'UPLOAD_TAILOR_FAILURE',
+    errMessage
+  }
+}
+
+function uploadTailor(resumeData: FormValues, jobDescription: string): AsyncAction {
+  return async (dispatch, getState) => {
+    dispatch(uploadTailorRequest())
+
+    // Dummy request - simulate API call with delay
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000)) // 2 second delay
+      
+      // Simulate successful response with reordered/filtered data
+      const tailoredData = {
+        ...resumeData,
+        work: resumeData.work.map((item, index) => ({
+          ...item,
+          enabled: index < 2 // Only enable first 2 work items
+        })),
+        skills: resumeData.skills.map((item, index) => ({
+          ...item,
+          enabled: index < 3 // Only enable first 3 skills
+        })),
+        projects: resumeData.projects.map((item, index) => ({
+          ...item,
+          enabled: index < 2 // Only enable first 2 projects
+        }))
+      }
+      
+      dispatch(uploadTailorSuccess(tailoredData))
+    } catch (err) {
+      dispatch(uploadTailorFailure(err.message))
+    }
+  }
+}
+
 export {
   uploadJSON,
   uploadJSONRequest,
@@ -268,5 +320,6 @@ export {
   toggleProjectItem,
   toggleAwardItem,
   toggleSkillKeyword,
-  toggleProjectKeyword
+  toggleProjectKeyword,
+  uploadTailor
 }

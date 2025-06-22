@@ -87,7 +87,8 @@ const initialState = {
         awards: true
       }
     }
-  }
+  },
+  tailorUpload: {}
 }
 
 function form(state: FormState = initialState, action: Action): FormState {
@@ -488,6 +489,38 @@ function form(state: FormState = initialState, action: Action): FormState {
               ? { ...item, enabled: !item.enabled }
               : item
           )
+        }
+      }
+    }
+
+    case 'UPLOAD_TAILOR_REQUEST': {
+      return {
+        ...state,
+        tailorUpload: {
+          status: 'pending'
+        }
+      }
+    }
+
+    case 'UPLOAD_TAILOR_SUCCESS': {
+      return {
+        ...state,
+        tailorUpload: {
+          status: 'success',
+        },
+        values: {
+          ...state.values,
+          ...action.tailoredData
+        }
+      }
+    }
+
+    case 'UPLOAD_TAILOR_FAILURE': {
+      return {
+        ...state,
+        tailorUpload: {
+          status: 'failure',
+          errMessage: action.errMessage
         }
       }
     }
