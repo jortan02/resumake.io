@@ -103,7 +103,7 @@ const SectionHeader = styled.div`
   justify-content: space-between;
   margin-bottom: 15px;
   border-bottom: 1px solid ${colors.primary};
-  padding-top: 8px;
+  padding-top: 12px;
   padding-bottom: 8px;
 `
 

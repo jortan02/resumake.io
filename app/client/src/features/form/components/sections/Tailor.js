@@ -48,6 +48,7 @@ type Props = {
   tailorDescription: ?string,
   sections: Array<string>,
   tailorUpload: Object,
+  tailorSections: Object,
   dispatch: Function
 }
 
@@ -71,7 +72,7 @@ class Tailor extends Component<Props> {
   }
 
   handleTailorClick = () => {
-    const { tailorDescription, selectedTemplate, basics, work, education, skills, projects, awards, dispatch } = this.props
+    const { tailorDescription, selectedTemplate, basics, work, education, skills, projects, awards, dispatch, tailorSections } = this.props
     
     if (!tailorDescription) return
     
@@ -85,7 +86,7 @@ class Tailor extends Component<Props> {
       awards
     }
     
-    dispatch(uploadTailor(resumeData, tailorDescription))
+    dispatch(uploadTailor(resumeData, tailorDescription, tailorSections))
   }
 
   render() {
@@ -126,7 +127,8 @@ function mapState(state: State) {
     selectedTemplate: state.form.resume.values.selectedTemplate,
     tailorDescription: selector(state, 'tailor.description'),
     sections: state.progress.sections,
-    tailorUpload: state.form.resume.tailorUpload
+    tailorUpload: state.form.resume.tailorUpload,
+    tailorSections: state.form.resume.values.tailor.sections
   }
 }
 

@@ -2,6 +2,7 @@
  * @flow
  */
 
+import 'dotenv/config'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import helmet from 'koa-helmet'

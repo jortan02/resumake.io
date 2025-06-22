@@ -257,30 +257,37 @@ function uploadTailorFailure(errMessage: string): Action {
   }
 }
 
-function uploadTailor(resumeData: FormValues, jobDescription: string): AsyncAction {
+function uploadTailor(resumeData: FormValues, jobDescription: string, tailorSections: any): AsyncAction {
   return async (dispatch, getState) => {
     dispatch(uploadTailorRequest())
 
-    // Dummy request - simulate API call with delay
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000)) // 2 second delay
+      const response = await fetch('/api/tailor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          resumeData,
+          jobDescription,
+          tailorSections
+        }),
+      });
       
-      // Simulate successful response with reordered/filtered data
-      const tailoredData = {
-        ...resumeData,
-        work: resumeData.work.map((item, index) => ({
-          ...item,
-          enabled: index < 2 // Only enable first 2 work items
-        })),
-        skills: resumeData.skills.map((item, index) => ({
-          ...item,
-          enabled: index < 3 // Only enable first 3 skills
-        })),
-        projects: resumeData.projects.map((item, index) => ({
-          ...item,
-          enabled: index < 2 // Only enable first 2 projects
-        }))
+      const responseText = await response.text();
+      
+      if (!response.ok) {
+        throw new Error(`Server Error: ${response.status} - ${responseText}`);
       }
+      
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        throw new Error(`Invalid JSON response: ${responseText.substring(0, 200)}...`);
+      }
+      
+      const tailoredData = data;
       
       dispatch(uploadTailorSuccess(tailoredData))
     } catch (err) {

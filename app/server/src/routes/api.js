@@ -4,7 +4,7 @@
 
 import Router from 'koa-router'
 import formidable from 'koa2-formidable'
-import { generatePDF, generateSourceCode } from '../generator'
+import { generatePDF, generateSourceCode, tailor } from '../generator'
 import { sanitizer, jsonResume } from '../middleware'
 
 const router = new Router({ prefix: '/api' })
@@ -41,6 +41,21 @@ router.post('/generate/source', async ({ request, response }) => {
 router.post('/upload', async ({ request, response }) => {
   response.body = (request.jsonResume: any)
   response.type = 'application/json'
+})
+
+/**
+ * Handle tailor request
+ */
+
+router.post('/tailor', async ({ request, response }) => {
+  try {
+    response.body = await tailor((request.body: any))
+    response.type = 'application/json'
+  } catch (error) {
+    response.status = 500
+    response.body = { error: error.message }
+    response.type = 'application/json'
+  }
 })
 
 export default router
