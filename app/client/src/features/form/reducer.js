@@ -78,7 +78,14 @@ const initialState = {
       }
     ],
     tailor: {
-      description: ''
+      description: '',
+      sections: {
+        work: true,
+        education: true,
+        skills: true,
+        projects: true,
+        awards: true
+      }
     }
   }
 }

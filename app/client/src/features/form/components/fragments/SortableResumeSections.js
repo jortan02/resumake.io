@@ -11,6 +11,7 @@ import {
   arrayMove
 } from 'react-sortable-hoc'
 import styled from 'styled-components'
+import { change } from 'redux-form'
 import { colors } from '../../../../common/theme'
 import { titleCase } from '../../../../common/utils'
 import { 
@@ -32,7 +33,6 @@ const Container = styled.div`
 const SectionTitle = styled.h3`
   text-transform: uppercase;
   letter-spacing: 2px;
-  padding-top: 10px;
   margin: 0;
   font-size: inherit;
   font-weight: normal;
@@ -49,7 +49,6 @@ const ItemContainer = styled.div`
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-  box-shadow: 0 0 0 0 ${rgba(colors.primary, 0.7)};
   
   &:last-child {
     margin-bottom: 0;
@@ -85,13 +84,10 @@ const ItemSubtitle = styled.div`
 `
 
 const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
   margin-right: 8px;
 `
 
 const Checkbox = styled.input`
-  margin: 0;
   margin-right: 8px;
   transform: scale(1.2);
   cursor: pointer;
@@ -107,7 +103,33 @@ const SectionHeader = styled.div`
   justify-content: space-between;
   margin-bottom: 15px;
   border-bottom: 1px solid ${colors.primary};
+  padding-top: 8px;
   padding-bottom: 8px;
+`
+
+const TailorCheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+`
+
+const TailorCheckbox = styled.input`
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  
+  &:checked {
+    accent-color: ${colors.primary};
+  }
+`
+
+const TailorLabel = styled.label`
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  color: ${lighten(0.1, colors.foreground)};
+  line-height: 1;
 `
 
 const DragHandle = SortableHandle(() => {
@@ -192,6 +214,7 @@ type Props = {
   skills: $PropertyType<FormValues, 'skills'>,
   projects: $PropertyType<FormValues, 'projects'>,
   awards: $PropertyType<FormValues, 'awards'>,
+  tailorSections: Object,
   onSortEnd: (sectionType: string, oldIndex: number, newIndex: number) => void,
   dispatch: Function
 }
@@ -203,6 +226,7 @@ function SortableResumeSections({
   skills,
   projects,
   awards,
+  tailorSections,
   onSortEnd,
   dispatch
 }: Props) {
@@ -248,15 +272,32 @@ function SortableResumeSections({
     }
   }
 
+  const handleTailorToggle = (sectionType) => {
+    const currentValue = tailorSections[sectionType] || false
+    dispatch(change('resume', `tailor.sections.${sectionType}`, !currentValue))
+  }
+
   return (
     <Container>
       {sortableSections.map((sectionType) => {
         const sectionData = getSectionData(sectionType)
+        const isTailorEnabled = tailorSections[sectionType] || false
 
         return (
           <div key={sectionType}>
             <SectionHeader>
               <SectionTitle>{titleCase(sectionType)}</SectionTitle>
+              <TailorCheckboxContainer>
+                <TailorCheckbox
+                  type="checkbox"
+                  id={`tailor-${sectionType}`}
+                  checked={isTailorEnabled}
+                  onChange={() => handleTailorToggle(sectionType)}
+                />
+                <TailorLabel htmlFor={`tailor-${sectionType}`}>
+                  Tailor?
+                </TailorLabel>
+              </TailorCheckboxContainer>
             </SectionHeader>
             {sectionData && sectionData.length > 0 && (
             <SortableItemList
@@ -283,7 +324,8 @@ function mapState(state: State) {
     education: state.form.resume.values.education,
     skills: state.form.resume.values.skills,
     projects: state.form.resume.values.projects,
-    awards: state.form.resume.values.awards
+    awards: state.form.resume.values.awards,
+    tailorSections: state.form.resume.values.tailor.sections
   }
 }
 

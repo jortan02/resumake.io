@@ -69,7 +69,15 @@ type Award = {
 }
 
 type Tailor = {
-  description?: ?string
+  description?: ?string,
+  key?: ?string,
+  sections?: {
+    work?: boolean,
+    education?: boolean,
+    skills?: boolean,
+    projects?: boolean,
+    awards?: boolean
+  }
 }
 
 type FormValues = {
