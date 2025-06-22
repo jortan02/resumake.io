@@ -7,8 +7,7 @@ import { connect } from 'react-redux'
 import {
   SortableContainer,
   SortableElement,
-  SortableHandle,
-  arrayMove
+  SortableHandle
 } from 'react-sortable-hoc'
 import styled from 'styled-components'
 import { change } from 'redux-form'
@@ -24,7 +23,7 @@ import {
 import type { FormValues } from '../../types'
 import type { State } from '../../../../app/types'
 import type { Section } from '../../../../common/types'
-import { lighten, darken, rgba } from 'polished'
+import { lighten } from 'polished'
 
 const Container = styled.div`
   margin: 20px 0;

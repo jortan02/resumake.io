@@ -103,4 +103,4 @@ type TemplateData = {
   opts?: LaTeXOpts
 }
 
-export type { SanitizedValues, Generator, TemplateData, Tailor }
+export type { SanitizedValues, Generator, TemplateData }

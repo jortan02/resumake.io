@@ -261,6 +261,8 @@ function uploadTailor(resumeData: FormValues, jobDescription: string, tailorSect
   return async (dispatch, getState) => {
     dispatch(uploadTailorRequest())
 
+    const { fetch } = window
+
     try {
       const response = await fetch('/api/tailor', {
         method: 'POST',

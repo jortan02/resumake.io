@@ -6,36 +6,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { formValueSelector, arrayMove } from 'redux-form'
 import Section from './Section'
-import LabeledInput, { Input, Label } from '../fragments/LabeledInput'
-import { Button, Divider } from '../../../../common/components'
+import { Button } from '../../../../common/components'
 import type { FormValues } from '../../types'
 import type { State } from '../../../../app/types'
-import styled from 'styled-components'
 import LabeledTextArea from '../fragments/LabeledTextArea'
 import SortableResumeSections from '../fragments/SortableResumeSections'
 import { uploadTailor } from '../../actions'
 import { toast } from 'react-toastify'
-
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-
-const ButtonRow = styled.div`
-  display: inline-flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-left: 15px;
-  ${props => props.hidden && 'opacity: 0;'} transition: none;
-`
-
-const MiniInput = Input.extend`
-  width: 65%;
-
-  @media screen and (max-width: 850px) {
-    width: 65%;
-  }
-`
 
 type Props = {
   basics: $PropertyType<FormValues, 'basics'>,
@@ -67,7 +44,6 @@ class Tailor extends Component<Props> {
   }
 
   onSortEnd = (sectionType, oldIndex, newIndex) => {
-    // Use Redux Form's arrayMove to reorder items within the specific section
     this.props.dispatch(arrayMove('resume', sectionType, oldIndex, newIndex))
   }
 
